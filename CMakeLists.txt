@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.16)
 
 option(WITH_TESTS "Build Tests" ON)
 option(WITH_COVERAGE "" ON)
@@ -122,7 +122,7 @@ target_include_directories(traact_point_cloud_plugin PRIVATE
 
 IF (NOT WIN32)
     MESSAGE(STATUS "Set boost::ublas alignment to 16")
-    set_target_properties(traact_point_cloud_plugin} PROPERTIES COMPILE_DEFINITIONS "BOOST_UBLAS_BOUNDED_ARRAY_ALIGN=__attribute__ ((aligned (16)))")
+    set_target_properties(traact_point_cloud_plugin PROPERTIES COMPILE_DEFINITIONS "BOOST_UBLAS_BOUNDED_ARRAY_ALIGN=__attribute__ ((aligned (16)))")
 ENDIF (NOT WIN32)
 
 install(TARGETS traact_spatial_plugin
