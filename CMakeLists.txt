@@ -6,7 +6,7 @@ option(WITH_COVERAGE "" ON)
 set(CMAKE_CXX_STANDARD 17)
 
 # public header
-set(LIB_HEADERS include/traact/point_cloud.h)
+set(LIB_HEADERS include/traact/point_cloud.h include/traact/traact_point_cloud_export.h)
 
 set(PLUGIN_HEADERS
 
@@ -46,6 +46,31 @@ endif ()
 
 add_definitions(-DTBB_PREVIEW_FLOW_GRAPH_FEATURES=1)
 add_definitions(-DTBB_PREVIEW_FLOW_GRAPH_NODES=1)
+
+# conan workspace and cmake don't work that well together, did not manage to get the build dir into the includes: 
+# force generated file into source include dir 
+# only one export file could be generated
+# use files and defines instead
+#set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+#set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
+#generate_export_header(${CONAN_PACKAGE_NAME} EXPORT_FILE_NAME "../../include/traact/${CONAN_PACKAGE_NAME}_export.h")
+
+if(UNIX)
+    if(APPLE)
+        MESSAGE(STATUS "Building for Macos.")
+        add_definitions(-DTRAACT_TARGET_APPLE=1)
+    endif()
+    MESSAGE(STATUS "Building for Unix.")
+    add_definitions(-DTRAACT_TARGET_UNIX=1)
+elseif(WIN32)
+    MESSAGE(STATUS "Building for Windows.")
+    add_definitions(-DTRAACT_TARGET_WINDOWS=1)
+endif()
+
+if (MSVC)
+    # per default disable extended aligned storage for now on msvc
+    add_definitions(-D_DISABLE_EXTENDED_ALIGNED_STORAGE -DHAVE_SNPRINTF)
+endif()
 
 add_link_options( -fno-gnu-unique )
 
@@ -88,16 +113,16 @@ target_link_libraries(traact_point_cloud_plugin
 #set_target_properties(traact_spatial_plugin PROPERTIES VERSION ${CONAN_PACKAGE_VERSION})
 #set_target_properties(${CONAN_PACKAGE_NAME} PROPERTIES PUBLIC_HEADER ${LIB_HEADERS})
 
-target_include_directories(${CONAN_PACKAGE_NAME} PUBLIC
+target_include_directories(traact_point_cloud_plugin PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
-target_include_directories(${CONAN_PACKAGE_NAME} PRIVATE
+target_include_directories(traact_point_cloud_plugin PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         )
 
 IF (NOT WIN32)
     MESSAGE(STATUS "Set boost::ublas alignment to 16")
-    set_target_properties(${CONAN_PACKAGE_NAME} PROPERTIES COMPILE_DEFINITIONS "BOOST_UBLAS_BOUNDED_ARRAY_ALIGN=__attribute__ ((aligned (16)))")
+    set_target_properties(traact_point_cloud_plugin} PROPERTIES COMPILE_DEFINITIONS "BOOST_UBLAS_BOUNDED_ARRAY_ALIGN=__attribute__ ((aligned (16)))")
 ENDIF (NOT WIN32)
 
 install(TARGETS traact_spatial_plugin

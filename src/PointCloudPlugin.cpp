@@ -29,8 +29,7 @@
  *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 
-#include <rttr/registration>
-#include <rttr/type>
+
 #include <traact/facade/Plugin.h>
 
 #include "traact/point_cloud.h"
@@ -67,6 +66,8 @@ class PointCloudPlugin : public traact::facade::Plugin {
 
     return nullptr;
   }
+
+  RTTR_ENABLE(traact::facade::Plugin)
 };
 
 }
@@ -79,6 +80,6 @@ RTTR_PLUGIN_REGISTRATION // remark the different registration macro!
   using namespace rttr;
   registration::class_<traact::spatial::PointCloudPlugin>("PointCloudPlugin").constructor<>()
       (
-          policy::ctor::as_std_shared_ptr
+          //policy::ctor::as_std_shared_ptr
       );
 }

@@ -56,5 +56,10 @@ const spatial::PointCloudHeader::NativeType &GenericBufferTypeConversion::asImmu
 }
 
 
+
+template TRAACT_POINT_CLOUD_EXPORT spatial::PointCloudHeader::NativeType &GenericBufferTypeConversion::asMutable<spatial::PointCloudHeader::NativeType, spatial::PointCloudHeader>(void *, void *);
+
+template TRAACT_POINT_CLOUD_EXPORT const spatial::PointCloudHeader::NativeType &GenericBufferTypeConversion::asImmutable<spatial::PointCloudHeader::NativeType, spatial::PointCloudHeader>(void *, void *);
+
 }
 

@@ -31,6 +31,8 @@
 
 #include "PCLVisualizerWindow.h"
 
+
+
 namespace traact::component {
 
 PCLVisualizerWindow::PCLVisualizerWindow() : shapeID(0), frameID(0), debug_viewer_("PCL Window") {

@@ -37,10 +37,11 @@
 #include <traact/datatypes.h>
 #include <Eigen/Geometry>
 #include <pcl/PCLPointCloud2.h>
+#include <traact/traact_point_cloud_export.h>
 
 namespace traact::spatial {
 
-struct PointCloudHeader {
+struct TRAACT_POINT_CLOUD_EXPORT PointCloudHeader {
   /**
    * Definitions needed by traact and the user to use a datatype
    */
@@ -52,7 +53,7 @@ struct PointCloudHeader {
 
 
 
-class PointCloudFactoryObject : public buffer::GenericFactoryObject {
+class TRAACT_POINT_CLOUD_EXPORT PointCloudFactoryObject : public buffer::GenericFactoryObject {
  public:
   std::string getTypeName() override {
     return std::move(std::string(PointCloudHeader::MetaType));
@@ -66,7 +67,6 @@ class PointCloudFactoryObject : public buffer::GenericFactoryObject {
   }
 
 };
-
 
 }
 

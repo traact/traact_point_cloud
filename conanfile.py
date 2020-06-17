@@ -33,7 +33,7 @@ class Traact(ConanFile):
         self.requires("traact_facade/%s@camposs/stable" % self.version)
         self.requires("traact_spatial/%s@camposs/stable" % self.version)
         self.requires("traact_vision/%s@camposs/stable" % self.version)
-        self.requires("pcl/1.9.1-r5@camposs/stable")
+        self.requires("pcl/1.9.1-r6@camposs/stable")
 
         if self.options.with_tests:
             self.requires("gtest/1.10.0")
