@@ -113,6 +113,11 @@ target_link_libraries(traact_point_cloud_plugin
 #set_target_properties(traact_spatial_plugin PROPERTIES VERSION ${CONAN_PACKAGE_VERSION})
 #set_target_properties(${CONAN_PACKAGE_NAME} PROPERTIES PUBLIC_HEADER ${LIB_HEADERS})
 
+if (MSVC)
+    # per default disable extended aligned storage for now on msvc
+    add_definitions(-D_DISABLE_EXTENDED_ALIGNED_STORAGE -DHAVE_SNPRINTF)
+endif()
+
 target_include_directories(traact_point_cloud_plugin PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
@@ -125,7 +130,7 @@ IF (NOT WIN32)
     set_target_properties(traact_point_cloud_plugin PROPERTIES COMPILE_DEFINITIONS "BOOST_UBLAS_BOUNDED_ARRAY_ALIGN=__attribute__ ((aligned (16)))")
 ENDIF (NOT WIN32)
 
-install(TARGETS traact_spatial_plugin
+install(TARGETS traact_point_cloud_plugin
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
